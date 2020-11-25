@@ -3,17 +3,13 @@
 namespace App\Controller\Admin;
 
 use App\Entity\AdminUser;
-use App\Entity\Category;
 use App\Form\AdminUserType;
-use App\Form\CategoryType;
 use App\Repository\AdminUserRepository;
-use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 
 /**
@@ -42,7 +38,7 @@ class AdminUserController extends AbstractController
      * @param EntityManagerInterface $manager
      * @return Response
      */
-    public function addAdminUser(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder): Response
+    public function addAdminUser(Request $request, EntityManagerInterface $manager): Response
     {
         $adminUser = New AdminUser();
         $form = $this->createForm(AdminUserType::class, $adminUser);
@@ -50,7 +46,6 @@ class AdminUserController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid())
         {
-            $this->register($encoder, $adminUser);
             $manager->persist($adminUser);
             $manager->flush();
             return $this->redirectToRoute('users_index');
@@ -90,12 +85,5 @@ class AdminUserController extends AbstractController
         $manager->remove($adminUser);
         $manager->flush();
         return $this->redirectToRoute('users_index');
-    }
-    public function register(UserPasswordEncoderInterface $encoder, AdminUser $adminUser)
-    {
-        $plainPassword = $adminUser->getPlainPassword();
-        $encoded = $encoder->encodePassword($adminUser, $plainPassword);
-
-        $adminUser->setPassword($encoded);
     }
 }
