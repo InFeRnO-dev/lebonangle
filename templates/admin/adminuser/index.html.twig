@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+{% block title %}AdminUsers{% endblock %}
+{% block header %}
+    <nav class="navbar navbar-expand-lg navbar-lg bg-lg">
+        <a class="navbar-brand" href="">
+            <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-house-door-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6.5 10.995V14.5a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5v-7a.5.5 0 0 1 .146-.354l6-6a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 .146.354v7a.5.5 0 0 1-.5.5h-4a.5.5 0 0 1-.5-.5V11c0-.25-.25-.5-.5-.5H7c-.25 0-.5.25-.5.495z"/>
+                <path fill-rule="evenodd" d="M13 2.5V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/>
+            </svg>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div style="align-content: end" class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li style="margin-right: 10px" class="nav-item">
+                    <a class="nav-link" href="{{ path('categories_index') }}">
+                        <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-collection-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0 13a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 16 13V6a1.5 1.5 0 0 0-1.5-1.5h-13A1.5 1.5 0 0 0 0 6v7z"/>
+                            <path fill-rule="evenodd" d="M2 3a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 0-1h-11A.5.5 0 0 0 2 3zm2-2a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 0-1h-7A.5.5 0 0 0 4 1z"/>
+                        </svg>
+                    </a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="{{ path('users_index') }}">
+                        <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-person-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                        </svg>
+                    </a>
+                </li>
+                <li>
+                    <a class="nav-link" href="{{ path('logout') }}">
+                        <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-door-closed-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M4 1a1 1 0 0 0-1 1v13H1.5a.5.5 0 0 0 0 1h13a.5.5 0 0 0 0-1H13V2a1 1 0 0 0-1-1H4zm2 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+                        </svg>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+{% endblock %}
+{% block body %}
+    <h1 style="text-align: center">AdminUsers</h1>
+    <div class="row">
+        <div style="padding: 50px" class="col s12">
+            <table class="table">
+                <thead>
+                <th style="font-size: x-large; font-family: Georgia">Username</th>
+                <th style="font-size: x-large; font-family: Georgia">Email</th>
+                <th style="font-size: x-large; font-family: Georgia">Password</th>
+                <th></th>
+                </thead>
+                <tbody>
+                {% for adminUser in adminUsers %}
+                    <tr>
+                        <td style="font-size: larger;font-family: 'Arial'">{{ adminUser.username }}</td>
+                        <td style="font-size: larger;font-family: 'Arial'">{{ adminUser.email }}</td>
+                        <td style="font-size: larger;font-family: 'Arial'">{{ adminUser.password }}</td>
+                        <td>
+                            <a href="{{ path('users_edit', {'id': adminUser.id}) }}" class="btn btn-secondary"><i class="material-icons">edit</i></a>
+                            <a href="{{ path('users_delete', {'id': adminUser.id}) }}" class="btn btn-danger"><i class="material-icons">delete</i></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <a href="{{ path('users_add') }}" class="btn btn-primary"><i class="material-icons">add</i></a>
+        </div>
+    </div>
+{% endblock %}
