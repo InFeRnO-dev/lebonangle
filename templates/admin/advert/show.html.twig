@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-{% block title %}Categories{% endblock %}
+{% block title %}Advert{% endblock %}
 {% block header %}
     <nav class="navbar navbar-expand-lg navbar-lg bg-lg">
         <a class="navbar-brand" href="{{ path('adverts_index') }}">
@@ -39,30 +39,48 @@
         </div>
     </nav>
 {% endblock %}
+
 {% block body %}
-    <h1 style="text-align: center">Categories</h1>
+
     <div class="row">
-        <div style="padding: 50px" class="col s12">
+        <div style="padding: 75px" class="col s12">
             <table class="table">
                 <thead>
-                <th style="font-size: x-large; font-family: Georgia">#</th>
-                <th style="font-size: x-large; font-family: Georgia">Name</th>
+                <th style="font-size: x-large; font-family: Georgia">Title</th>
+                <th style="font-size: x-large; font-family: Georgia">Content</th>
+                <th style="font-size: x-large; font-family: Georgia">Author</th>
+                <th style="font-size: x-large; font-family: Georgia">Email</th>
+                <th style="font-size: x-large; font-family: Georgia">Category</th>
+                <th style="font-size: x-large; font-family: Georgia">Price</th>
+                <th style="font-size: x-large; font-family: Georgia">State</th>
+                <th style="font-size: x-large; font-family: Georgia">CreatedAt</th>
+                <th style="font-size: x-large; font-family: Georgia">publishedAt</th>
                 <th></th>
                 </thead>
                 <tbody>
-                {% for category in categories %}
-                    <tr>
-                        <td style="font-size: larger;font-family: 'Arial'">{{ category.id }}</td>
-                        <td style="font-size: larger;font-family: 'Arial'">{{ category.name }}</td>
-                        <td>
-                            <a href="{{ path('categories_edit', {'id': category.id}) }}" class="btn btn-secondary"><i class="material-icons">edit</i></a>
-                            <a href="{{ path('categories_delete', {'id': category.id}) }}" class="btn btn-danger"><i class="material-icons">delete</i></a>
-                        </td>
-                    </tr>
-                {% endfor %}
+                <tr>
+                    <td style="font-size: larger;font-family: 'Arial'">{{ advert.title }}</td>
+                    <td style="font-size: larger;font-family: 'Arial'">{{ advert.content }}</td>
+                    <td style="font-size: larger;font-family: 'Arial'">{{ advert.author }}</td>
+                    <td style="font-size: larger;font-family: 'Arial'">{{ advert.email }}</td>
+                    <td style="font-size: larger;font-family: 'Arial'">{{ category.name }}</td>
+                    <td style="font-size: larger;font-family: 'Arial'">{{ advert.price }}</td>
+                    <td style="font-size: larger;font-family: 'Arial'">{{ advert.state }}</td>
+                    <td style="font-size: larger;font-family: 'Arial'">{{ advert.createdat | date('d-m-y h:i:s' , 'Europe/Paris')}}</td>
+                    <td style="font-size: larger;font-family: 'Arial'">{{ advert.publishedat | date('d-m-y h:i:s' , 'Europe/Paris')}}</td>
+                    <td>
+                        {% if workflow_can(advert, 'publish') %}
+                        <a href="{{ path('advert_change_state', {'transition': 'publish', 'id': advert.id}) }}" class="btn btn-sm btn-outline-success">publish</a>
+                    {% endif %}
+                    {% if workflow_can(advert, 'moderate') %}
+                        <a href="{{ path('advert_change_state', {'transition': 'moderate', 'id': advert.id}) }}" class="btn btn-sm btn-outline-danger">moderate</a>
+                    {% endif %}
+                    {% if workflow_can(advert, 'reject') %}
+                        <a href="{{ path('advert_change_state', {'transition': 'reject', 'id': advert.id}) }}" class="btn btn-sm btn-outline-danger">reject</a>
+                    {% endif %}
+                    </td>
+                </tr>
                 </tbody>
+
             </table>
-            <a href="{{ path('categories_add') }}" class="btn btn-primary"><i class="material-icons">add</i></a>
-        </div>
-    </div>
 {% endblock %}

@@ -2,8 +2,10 @@
 
 namespace App\Entity;
 
+use App\Entity\Category;
 use App\Repository\AdvertRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=AdvertRepository::class)
@@ -18,12 +20,22 @@ class Advert
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="string")
+     * @Assert\Length(
+     *     min = 3,
+     *     max = 100,
+     *     minMessage = "This value is too short. It should have {{ limit }} characters or more.",
+     *     maxMessage = "This value is too long. It should have {{ limit }} characters or less."
+     *)
      */
     private $title;
 
     /**
-     * @ORM\Column(type="text", length=1200)
+     * @ORM\Column(type="text")
+     * @Assert\Length(
+     *     max = 1200,
+     *     maxMessage = "This value is too long. It should have {{ limit }} characters or less."
+     *     )
      */
     private $content;
 
@@ -44,7 +56,13 @@ class Advert
     private $category;
 
     /**
-     * @ORM\Column(type="float", length=1000000)
+     * @ORM\Column(type="float")
+     * @Assert\Length(
+     *    min = 1,
+     *    max = 1000000,
+     *    minMessage = "This value is too short. It should have {{ limit }} euros or more.",
+     *    maxMessage = "This value is too long. It should have {{ limit }} euros or more."
+     *    )
      */
     private $price;
 
@@ -116,12 +134,12 @@ class Advert
         return $this;
     }
 
-    public function getCategory(): ?category
+    public function getCategory(): ?Category
     {
         return $this->category;
     }
 
-    public function setCategory(?category $category): self
+    public function setCategory(?Category $category): self
     {
         $this->category = $category;
 

@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-{% block title %}Categories{% endblock %}
+{% block title %}Advert{% endblock %}
 {% block header %}
     <nav class="navbar navbar-expand-lg navbar-lg bg-lg">
         <a class="navbar-brand" href="{{ path('adverts_index') }}">
@@ -39,30 +39,21 @@
         </div>
     </nav>
 {% endblock %}
+
 {% block body %}
-    <h1 style="text-align: center">Categories</h1>
-    <div class="row">
-        <div style="padding: 50px" class="col s12">
-            <table class="table">
-                <thead>
-                <th style="font-size: x-large; font-family: Georgia">#</th>
-                <th style="font-size: x-large; font-family: Georgia">Name</th>
-                <th></th>
-                </thead>
-                <tbody>
-                {% for category in categories %}
-                    <tr>
-                        <td style="font-size: larger;font-family: 'Arial'">{{ category.id }}</td>
-                        <td style="font-size: larger;font-family: 'Arial'">{{ category.name }}</td>
-                        <td>
-                            <a href="{{ path('categories_edit', {'id': category.id}) }}" class="btn btn-secondary"><i class="material-icons">edit</i></a>
-                            <a href="{{ path('categories_delete', {'id': category.id}) }}" class="btn btn-danger"><i class="material-icons">delete</i></a>
-                        </td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-            <a href="{{ path('categories_add') }}" class="btn btn-primary"><i class="material-icons">add</i></a>
+    {% for advert in adverts %}
+        <div class="col-6 mb-4">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h4 style="font-family: Arial" class="card-title">{{ advert.title }}</h4>
+                    <h4 style="font-family: Georgia" class="card-text">{{ advert.author }}</h4>
+                    <p style="text-align: left; font-family: Georgia" class="card-text">{{ advert.price }} €</p>
+                    <p style="text-align: left; font-family: Georgia" class="card-text">{{ advert.state }}</p>
+                    <a href="{{ path('advert_show', { 'id': advert.id}) }}" class="btn btn-primary">View More</a>
+                </div>
+            </div>
         </div>
-    </div>
+    {% else %}
+        <h3>No advert</h3>
+    {% endfor %}
 {% endblock %}

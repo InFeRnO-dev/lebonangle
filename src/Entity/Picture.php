@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Advert;
 use App\Repository\PictureRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -77,12 +78,12 @@ class Picture
         return $this;
     }
 
-    public function getAdvert(): ?advert
+    public function getAdvert(): ?Advert
     {
         return $this->advert;
     }
 
-    public function setAdvert(?advert $advert): self
+    public function setAdvert(?Advert $advert): self
     {
         $this->advert = $advert;
 
