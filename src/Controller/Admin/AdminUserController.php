@@ -82,8 +82,15 @@ class AdminUserController extends AbstractController
      */
     public function deleteAdminUser(EntityManagerInterface $manager, AdminUser $adminUser): Response
     {
-        $manager->remove($adminUser);
-        $manager->flush();
-        return $this->redirectToRoute('users_index');
+        $user = $this->getUser();
+        if($user === $adminUser){
+            return new Response('Vous ne pouvez pas supprimer cet utilisateur');
+        }
+        else{
+            $manager->remove($adminUser);
+            $manager->flush();
+            return $this->redirectToRoute('users_index');
+        }
+
     }
 }

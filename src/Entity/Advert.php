@@ -8,11 +8,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ORM\Entity(repositoryClass=AdvertRepository::class)
  * @ApiResource(
  *     collectionOperations={"get", "post"},
  *     itemOperations={"get"},
@@ -20,6 +21,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     denormalizationContext={"groups"={"advert:write"}},
  *     formats={"json"}
  *)
+ * @ORM\Entity(repositoryClass=AdvertRepository::class)
+ * @ApiFilter(SearchFilter::class, properties={"category": "exact", "state": "exact"})
  */
 class Advert
 {
@@ -66,7 +69,7 @@ class Advert
     private $email;
 
     /**
-     * @ORM\ManyToOne(targetEntity=category::class)
+     * @ORM\ManyToOne(targetEntity=Category::class)
      * @ORM\JoinColumn(nullable=false)
      * @Groups({"advert:read", "advert:write"})
      */

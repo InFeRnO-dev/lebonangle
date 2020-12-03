@@ -31,17 +31,17 @@ class AdvertController extends AbstractController
             'adverts' => $adverts,
         ]);
     }
+
     /**
-     * @Route("/{id}", name="advert_show", methods={"GET"})
-     * @param AdvertRepository $repository
+     * @Route("/{id}", name="advert_show")
+     * @param Advert $advert
      * @return Response
      */
-    public function showAdvert(AdvertRepository $repository, Advert $advert , Category $category): Response
+    public function showAdvert(Advert $advert): Response
     {
         return $this->render('admin/advert/show.html.twig', [
             'controller_name' => 'AdvertController',
             'advert' => $advert,
-            'category' => $category,
         ]);
     }
 
@@ -58,6 +58,7 @@ class AdvertController extends AbstractController
     {
         if ($advertStateMachine->can($advert, $transition)) {
             $advertStateMachine->apply($advert, $transition);
+            $advert->setPublishedAt(new \DateTime());
             $manager->persist($advert);
             $manager->flush();
 
