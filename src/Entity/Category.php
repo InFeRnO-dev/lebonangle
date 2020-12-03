@@ -4,9 +4,12 @@ namespace App\Entity;
 
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * @ORM\Entity(repositoryClass=CategoryRepository::class)
+ * @ApiResource(iri="http://schema.org/Category",
+ * formats={"json"})
  */
 class Category
 {

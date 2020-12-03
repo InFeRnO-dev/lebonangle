@@ -58,6 +58,7 @@ class AdvertController extends AbstractController
     {
         if ($advertStateMachine->can($advert, $transition)) {
             $advertStateMachine->apply($advert, $transition);
+            $manager->persist($advert);
             $manager->flush();
 
             $this->addFlash('success', sprintf('"%s" transition applied', $transition));
